@@ -137,5 +137,5 @@ discovery_image_sno3.iso                             100%[======================
 ~~~
 
 <p align="center">
-<img align="center" src="sno3-slow-link.png" style="width: 900px;" border=0/>
+<img align="center" src="sno3.png" style="width: 900px;" border=0/>
 </p>

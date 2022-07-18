@@ -4,11 +4,13 @@
 
 Just recently a customer approached me with the question around bandwidth and latency in regards to installing a Single Node OpenShift cluster at edge sites.   They were concerned given the sites limited bandwidth (1Mbit) and latency (90ms) if the installer would time out before completing the installation.  This line of questioning started me thinking on how we could prove the answer with empirical evidence without having the customer actually go through the pain of doing a proof of concept.
 
-The initial idea was to build a lab harness that would simulate the latency and bandwidth limitation of the site without actually having to be at the site.  To do this I figured I could take a a regular RHEL node that I would use as a KVM hypervisor and then create an empty virtual machine in the hypervisor that would eventually become my Single Node OpenShift node.  Since I had it lying around I just used a plain old Intel NUC (NUC8i7BEH).  The NUC has but one interface (eno1) on it but that really was all I needed for this scenario.   I decided I would go ahead and build a bridge (br10) off the single interface that would then get attached to my virtual machine.  The networking diagram is below:
+The initial idea was to build a lab harness that would simulate the latency and bandwidth limitation of the site without actually having to be at the site.  To do this I figured I could take a a regular RHEL node that I would use as a KVM hypervisor and then create an empty virtual machine in the hypervisor that would eventually become my Single Node OpenShift node.  Since I had it lying around I just used a plain old Intel NUC (NUC8i7BEH).  The NUC has but one interface (eno1) on it but that really was all I needed for this scenario.   I decided to go with the networking diagram below:
 
 <img src="lab.jpeg" style="width: 800px;" border=0/>
 
+We can see from the picture our baremetal network comes in on eno1 and then is attached to br10.  Then we take br10 and attach it to the virtual machine where it becomes enp1s0 inside the virtual machine.  Once OpenShift gets installed there will then be a br-ex interface on top of the enp1s0 interface.  This setup ensures I have a way to limit the bandwidth and latency from the start of the installation because now I can use familar tool Traffic Control (tc) to apply the required traffic shaping I need for my requirement testing. I use tc to apply rules to the eno1 interface and then I can use iperf to actually show those rules having an impact on the network performance.   
 
+Before we apply our actual requirement lets take a look at a few examples the first being our baseline on eno1 without any rules applied.  Here we will simply run the iperf3 client and point it at our running iperf server I have on another host:
 
 ~~~bash
 # iperf3 -c 192.168.0.5
@@ -32,6 +34,8 @@ Connecting to host 192.168.0.5, port 5201
 
 iperf Done.
 ~~~
+
+From the iperf output above we can see we are getting standard networking from the eno1 interface which is just a plain 1GB ethernet interface.  Now lets apply a tc rule to set the rate to 512kbit and 100ms of latency and run iperf:
 
 ~~~bash
 # tc qdisc replace dev eno1 root tbf rate 512kbit buffer 256kb latency 100ms
@@ -57,6 +61,8 @@ Connecting to host 192.168.0.5, port 5201
 iperf Done.
 ~~~
 
+From the test results we can see the tc rule reduced the speed on the interface.  Now lets try again with a 256kbit rate setting:
+
 ~~~bash
 # tc qdisc replace dev eno1 root tbf rate 256kbit buffer 256kb latency 100ms
 # iperf3 -c 192.168.0.5
@@ -81,7 +87,7 @@ Connecting to host 192.168.0.5, port 5201
 iperf Done.
 ~~~
 
-
+Again we see further reduction in the performance of the interface which confirms that tc is doing what it should.  Finally lets set the interface for a more extreme rate of 128kbit which is the rate I want to test in my deployment.   
 
 ~~~bash
 # tc qdisc replace dev eno1 root tbf rate 128kbit buffer 256kb latency 100ms
@@ -106,3 +112,7 @@ Connecting to host 192.168.0.5, port 5201
 
 iperf Done.
 ~~~
+
+We can see from the iperf3 testing above the rate is a lot slower then our original eno1 interface baseline rate but that is okay because the idea here is to see what will happen when we go to deploy OpenShift on a slow link.   Further this test is much slower then the customers required 1Mbit link but again if it works here I don't see it failing on the faster link.
+
+At this point I went to 

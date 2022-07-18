@@ -1,6 +1,4 @@
-<p align="center">
 # **OpenShift Latency & Bandwidth Testing for Edge**
-</p>
 
 <p align="center">
 <img align="center" src="bandwidth.jpg" style="width: 800px;" border=0/>

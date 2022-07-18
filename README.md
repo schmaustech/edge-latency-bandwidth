@@ -120,3 +120,22 @@ iperf Done.
 We can see from the iperf3 testing above the rate is a lot slower then our original eno1 interface baseline rate but that is okay because the idea here is to see what will happen when we go to deploy OpenShift on a slow link.   Further this test is much slower then the customers required 1Mbit link but again if it works here I don't see it failing on the faster link.
 
 At this point I went to 
+
+
+~~~bash
+# wget -O discovery_image_sno3.iso 'https://api.openshift.com/api/assisted-images/images/af8a514b-68f1-4a55-95ef-8fe82be48445?arch=x86_64&image_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTc5MTYxNTIsInN1YiI6ImFmOGE1MTRiLTY4ZjEtNGE1NS05NWVmLThmZTgyYmU0ODQ0NSJ9.AjTpZOn1utQQU7nqc-wk5pYDvllbKiBhcLS31pAdlWE&type=full-iso&version=4.10'
+--2022-07-15 11:16:05--  https://api.openshift.com/api/assisted-images/images/af8a514b-68f1-4a55-95ef-8fe82be48445?arch=x86_64&image_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTc5MTYxNTIsInN1YiI6ImFmOGE1MTRiLTY4ZjEtNGE1NS05NWVmLThmZTgyYmU0ODQ0NSJ9.AjTpZOn1utQQU7nqc-wk5pYDvllbKiBhcLS31pAdlWE&type=full-iso&version=4.10
+Resolving api.openshift.com (api.openshift.com)... 54.145.108.20, 34.236.218.142
+Connecting to api.openshift.com (api.openshift.com)|54.145.108.20|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1047527424 (999M) [application/octet-stream]
+Saving to: ‘discovery_image_sno3.iso’
+
+discovery_image_sno3.iso                             100%[=====================================================================================================================>] 999.00M   667KB/s    in 25m 33s 
+
+2022-07-15 11:41:39 (667 KB/s) - ‘discovery_image_sno3.iso’ saved [1047527424/1047527424]
+~~~
+
+<p align="center">
+<img align="center" src="sno3-low-link.png" style="width: 900px;" border=0/>
+</p>

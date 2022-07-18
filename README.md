@@ -1,12 +1,12 @@
 # **OpenShift Latency & Bandwidth Testing for Edge**
 
-<img src="bandwidth.jpg" style="width: 800px;" border=0/>
+<img align="center" src="bandwidth.jpg" style="width: 800px;" border=0/>
 
 Just recently a customer approached me with the question around bandwidth and latency in regards to installing a Single Node OpenShift cluster at edge sites.   They were concerned given the sites limited bandwidth (1Mbit) and latency (90ms) if the installer would time out before completing the installation.  This line of questioning started me thinking on how we could prove the answer with empirical evidence without having the customer actually go through the pain of doing a proof of concept.
 
 The initial idea was to build a lab harness that would simulate the latency and bandwidth limitation of the site without actually having to be at the site.  To do this I figured I could take a a regular RHEL node that I would use as a KVM hypervisor and then create an empty virtual machine in the hypervisor that would eventually become my Single Node OpenShift node.  Since I had it lying around I just used a plain old Intel NUC (NUC8i7BEH).  The NUC has but one interface (eno1) on it but that really was all I needed for this scenario.   I decided to go with the networking diagram below:
 
-<img src="lab.jpeg" style="width: 800px;" border=0/>
+<img align="center" src="lab.jpeg" style="width: 800px;" border=0/>
 
 We can see from the picture our baremetal network comes in on eno1 and then is attached to br10.  Then we take br10 and attach it to the virtual machine where it becomes enp1s0 inside the virtual machine.  Once OpenShift gets installed there will then be a br-ex interface on top of the enp1s0 interface.  This setup ensures I have a way to limit the bandwidth and latency from the start of the installation. This also allows me to use Traffic control (tc) which is a very useful Linux utility that gives you the ability to configure the kernel packet scheduler. The tool allows one to simulate packet delay and loss for UDP or TCP applications, or limit the bandwidth usage of a particular service to simulate Internet connections (DSL, Cable, T1, etc). I use tc to apply rules to the eno1 interface and then I can use iperf to actually show those rules having an impact on the network performance.   
 

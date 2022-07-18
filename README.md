@@ -6,7 +6,7 @@ Just recently a customer approached me with the question around bandwidth and la
 
 The initial idea was to build a lab harness that would simulate the latency and bandwidth limitation of the site without actually having to be at the site.  To do this I figured I could take a a regular RHEL node that I would use as a KVM hypervisor and then create an empty virtual machine in the hypervisor that would eventually become my Single Node OpenShift node.  Since I had it lying around I just used a plain old Intel NUC (NUC8i7BEH).  The NUC has but one interface (eno1) on it but that really was all I needed for this scenario.   I decided I would go ahead and build a bridge (br10) off the single interface that would then get attached to my virtual machine.  The networking diagram is below:
 
-
+<img src="lab.jpeg" style="width: 800px;" border=0/>
 
 
 

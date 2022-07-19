@@ -130,7 +130,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 1047527424 (999M) [application/octet-stream]
 Saving to: ‘discovery_image_sno3.iso’
 
-discovery_image_sno3.iso 100%[===============================================================>] 999.00M   667KB/s    in 25m 33s 
+discovery_image_sno3.iso 100% [===============================================================>] 999.00M 667KB/s in 25m33s 
 
 2022-07-15 11:41:39 (667 KB/s) - ‘discovery_image_sno3.iso’ saved [1047527424/1047527424]
 ~~~

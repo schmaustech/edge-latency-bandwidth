@@ -122,15 +122,15 @@ We can see from the iperf3 testing above the rate is a lot slower then our origi
 At this point the framework of my lab is configured.  Now we need to get a Single Node OpenShift cluster deployed and for that I will use Assisted Installer.  For more information on using the Assisted Installer please see this reference [blog](https://cloud.redhat.com/blog/how-to-use-the-openshift-assisted-installer).  For my installation I will choose to install a single node deployment and once I get to the point where I can add hosts I will download the full ISO for this installation.  Since my lab is using a virtual machine I will download the ISO directly onto the KVM hypervisor host which already has the tc rate limiting applied to the primary interface.   My download experience is below:
 
 ~~~bash
-# wget -O discovery_image_sno3.iso 'https://api.openshift.com/api/assisted-images/images/af8a514b-68f1-4a55-95ef-8fe82be48445?arch=x86_64&image_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTc5MTYxNTIsInN1YiI6ImFmOGE1MTRiLTY4ZjEtNGE1NS05NWVmLThmZTgyYmU0ODQ0NSJ9.AjTpZOn1utQQU7nqc-wk5pYDvllbKiBhcLS31pAdlWE&type=full-iso&version=4.10'
---2022-07-15 11:16:05--  https://api.openshift.com/api/assisted-images/images/af8a514b-68f1-4a55-95ef-8fe82be48445?arch=x86_64&image_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTc5MTYxNTIsInN1YiI6ImFmOGE1MTRiLTY4ZjEtNGE1NS05NWVmLThmZTgyYmU0ODQ0NSJ9.AjTpZOn1utQQU7nqc-wk5pYDvllbKiBhcLS31pAdlWE&type=full-iso&version=4.10
+# wget -O discovery_image_sno3.iso 'https://api.openshift.com/api/assisted-images/images/af8a514b-68f1-4a65-95ef-8fe82be48445?arch=x86_64&image_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTc5MTYxNTIsInN1YiI6ImFmOGE1MTRiLTY4ZjEtNGE1NS05NWVmLThmZTgyYmU0ODQ0NSJ9.AjTpZOn1utQQU7nqc-wk5pYDvllbKiBhcLS31pAdlWE&type=full-iso&version=4.10'
+--2022-07-15 11:16:05--  https://api.openshift.com/api/assisted-images/images/af8a514b-68f1-4a65-95ef-8fe82be48445?arch=x86_64&image_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTc5MTYxNTIsInN1YiI6ImFmOGE1MTRiLTY4ZjEtNGE1NS05NWVmLThmZTgyYmU0ODQ0NSJ9.AjTpZOn1utQQU7nqc-wk5pYDvllbKiBhcLS31pAdlWE&type=full-iso&version=4.10
 Resolving api.openshift.com (api.openshift.com)... 54.145.108.20, 34.236.218.142
 Connecting to api.openshift.com (api.openshift.com)|54.145.108.20|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1047527424 (999M) [application/octet-stream]
 Saving to: ‘discovery_image_sno3.iso’
 
-discovery_image_sno3.iso                             100%[=====================================================================================================================>] 999.00M   667KB/s    in 25m 33s 
+discovery_image_sno3.iso                             100%[=====================================================================================================>] 999.00M   667KB/s    in 25m 33s 
 
 2022-07-15 11:41:39 (667 KB/s) - ‘discovery_image_sno3.iso’ saved [1047527424/1047527424]
 ~~~

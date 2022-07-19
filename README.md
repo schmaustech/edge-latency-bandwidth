@@ -1,7 +1,7 @@
 # **OpenShift Latency & Bandwidth Testing for Edge**
 
 <p align="center">
-<img align="center" src="pipe.jpg" style="width: 800px;" border=0/>
+<img align="center" src="pipe.jpg" style="width: 1000px;" border=0/>
 </p>
 
 Just recently a customer approached me with the question around bandwidth and latency in regards to installing a Single Node OpenShift cluster at edge sites.   They were concerned given the sites limited bandwidth (1Mbit) and latency (90ms) if the installer would time out before completing the installation.  This line of questioning started me thinking on how we could prove the answer with empirical evidence without having the customer actually go through the pain of doing a proof of concept.

@@ -119,8 +119,7 @@ iperf Done.
 
 We can see from the iperf3 testing above the rate is a lot slower then our original eno1 interface baseline rate but that is okay because the idea here is to see what will happen when we go to deploy OpenShift on a slow link.   Further this test is much slower then the customers required 1Mbit link but again if it works here I don't see it failing on the faster link.
 
-At this point I went to 
-
+At this point the framework of my lab is configured.  Now we need to get a Single Node OpenShift cluster deployed and for that I will use Assisted Installer.  For more information on using the Assisted Installer please see this reference [blog](https://cloud.redhat.com/blog/how-to-use-the-openshift-assisted-installer).  For my installation I will choose to install a single node deployment and once I get to the point where I can add hosts I will download the full ISO for this installation.  Since my lab is using a virtual machine I will download the ISO directly onto the KVM hypervisor host which already has the tc rate limiting applied to the primary interface.   My download experience is below:
 
 ~~~bash
 # wget -O discovery_image_sno3.iso 'https://api.openshift.com/api/assisted-images/images/af8a514b-68f1-4a55-95ef-8fe82be48445?arch=x86_64&image_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTc5MTYxNTIsInN1YiI6ImFmOGE1MTRiLTY4ZjEtNGE1NS05NWVmLThmZTgyYmU0ODQ0NSJ9.AjTpZOn1utQQU7nqc-wk5pYDvllbKiBhcLS31pAdlWE&type=full-iso&version=4.10'
@@ -135,6 +134,11 @@ discovery_image_sno3.iso                             100%[======================
 
 2022-07-15 11:41:39 (667 KB/s) - ‘discovery_image_sno3.iso’ saved [1047527424/1047527424]
 ~~~
+
+We can see from the download experience that it took 25 minutes to download the full ISO image which is just 999mb.   Normally when I download this image without the tc rate limiting it only takes around 2 minutes.  This further shows that our rate limiting setup is working by design and has established a slower link.
+
+With the image downloaded to the KVM hypervisor I can map it to the virtual machine and power on the virtual machine.  Once the virtual machine reports back into Assisted Installer I can select it and complete the steps to start the installation.  Normally a Single Node OpenShift install like this take about an hour in my lab environment.  However that is without the tc rate limiting in place.
+
 
 <p align="center">
 <img align="center" src="sno3.png" style="width: 900px;" border=0/>

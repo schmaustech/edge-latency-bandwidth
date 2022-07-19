@@ -14,7 +14,7 @@ The initial idea was to build a lab harness that would simulate the latency and 
 
 We can see from the picture our baremetal network comes in on eno1 and then is attached to br10.  Then we take br10 and attach it to the virtual machine where it becomes enp1s0 inside the virtual machine.  Once OpenShift gets installed there will then be a br-ex interface on top of the enp1s0 interface.  This setup ensures I have a way to limit the bandwidth and latency from the start of the installation. This also allows me to use Traffic Control (tc) which is a very useful Linux utility that gives you the ability to configure the kernel packet scheduler. The tool allows one to simulate packet delay and loss for UDP or TCP applications, or limit the bandwidth usage of a particular service to simulate Internet connections (DSL, Cable, T1, etc). I will use tc to limit bandwidth and introduce delay for everything passing through the eno1 interfac.  Then I can use iperf to actually show those rules having an impact on the network performance.   
 
-Before we apply our actual requirement lets take a look at a few examples the first being our baseline on eno1 without any rules applied.  Here we will simply run the iperf3 client and point it at our running iperf server I have on another host at ipaddress 192.168.0.5:
+Before we apply our actual requirement lets take a look at a few examples the first being our baseline on eno1 without any rules applied.  Here we will simply run the iperf client and point it at our running iperf server I have on another host at ipaddress 192.168.0.5:
 
 ~~~bash
 # iperf3 -c 192.168.0.5
@@ -117,7 +117,7 @@ Connecting to host 192.168.0.5, port 5201
 iperf Done.
 ~~~
 
-We can see from the iperf3 testing above the rate is a lot slower then our original eno1 interface baseline rate but that is okay because the idea here is to see what will happen when we go to deploy OpenShift on a slow link.   Further this test is much slower then the customers required 1Mbit link but again if it works here I don't see it failing on the 1Mbit link.
+We can see from the iperf testing above the rate is a lot slower then our original eno1 interface baseline rate but that is okay because the idea here is to see what will happen when we go to deploy OpenShift on a slow link.   Further this test is much slower then the customers required 1Mbit link but again if it works here I don't see it failing on the 1Mbit link.
 
 I should also point out that if one wants to see what the current tc rules applied to a host are they can use the following syntax:
 
